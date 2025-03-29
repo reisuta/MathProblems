@@ -4,12 +4,12 @@ RUN apk update && \
     apk add --no-cache gcompat && \
     apk add --no-cache linux-headers libxml2-dev make gcc yaml-dev libc-dev nodejs tzdata postgresql-dev postgresql git bash && \
     apk add --virtual build-packages --no-cache build-base curl-dev
-RUN mkdir /myapp
-WORKDIR /myapp
-ADD Gemfile /myapp/Gemfile
-ADD Gemfile.lock /myapp/Gemfile.lock
+RUN mkdir /app
+WORKDIR /app
+ADD Gemfile /app/Gemfile
+ADD Gemfile.lock /app/Gemfile.lock
 RUN bundle install
 RUN apk del build-packages
-ADD . /myapp
+ADD . /app
 EXPOSE 4000
 CMD ["rails", "server", "-b", "0.0.0.0"]
