@@ -16,7 +16,8 @@ export const useApi = () => {
       headers.Authorization = `Bearer ${authStore.token}`
     }
 
-    const response = await fetch(`${baseUrl}/api/v1${endpoint}`, {
+    // const response = await fetch(`${baseUrl}/api/v1${endpoint}`, {
+    const response = await fetch(`http://localhost:4000/api/v1${endpoint}`, {
       ...options,
       headers
     })

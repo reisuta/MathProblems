@@ -4,18 +4,28 @@
 
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
-import { renderMathInElement } from 'mathjax-vue3'
+import katex from 'katex'
 
 const props = defineProps<{
   equation: string;
+  displayMode?: boolean;
 }>()
 
 const mathContainer = ref<HTMLElement | null>(null)
 
 const renderMath = () => {
   if (mathContainer.value) {
-    mathContainer.value.innerHTML = props.equation
-    renderMathInElement(mathContainer.value)
+    try {
+      katex.render(props.equation, mathContainer.value, {
+        displayMode: props.displayMode ?? false,
+        throwOnError: false,
+        trust: true
+      })
+    } catch (error) {
+      console.error('KaTeX rendering error:', error)
+      // エラー時はプレーンテキストとして表示
+      mathContainer.value.textContent = props.equation
+    }
   }
 }
 
